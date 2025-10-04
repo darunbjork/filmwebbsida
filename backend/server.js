@@ -7,6 +7,7 @@ const cors = require('cors');
 dotenv.config({ path: './.env'});
 
 const connectDB = require('./config/db');
+const errorHandler = require('./middleware/errorHandler')
 
 connectDB();
 
@@ -24,6 +25,8 @@ app.get('/', (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
+
+app.use(errorHandler);
 
 app.listen(
   PORT,
