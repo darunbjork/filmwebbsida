@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Filmer - Filmwebbsida</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Filmwebbsida</h1>
+      <nav>
+        <a href="index.html">Hem</a>
+        <a href="filmer.html">Filmer</a>
+        <a href="kontakt.html">Kontakt</a>
+        <a href="om-oss.html">Om Oss</a>
+      </nav>
+    </header>
+
+    <main>
+        <h2>Våra Filmer</h2>
+        
+        <div id="filter-container" class="filter-bar">
+            </div>
+
+        <p id="loading-message" class="loading-state">Laddar filmer...</p>
+        
+        <p id="error-message" class="error-state" style="display: none;"></p>
+        
+        <div id="movie-grid" class="movie-grid">
+            </div>
+    </main>
+
+    <script type="module" src="js/api.js"></script>
+    <script type="module" src="js/movies.js"></script>
+  </body>
+</html>
