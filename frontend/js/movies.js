@@ -38,7 +38,7 @@ function renderMovie(movie) {
             <h3>${movie.title} (${movie.year})</h3>
             <div class="genre-list">${genrePills}</div>
             <p class="rating">⭐️ ${movie.rating} / 10</p>
-            <p class="description">${movie.description.substring(0, 100)}...</p>
+            <p class="description">${(movie.description || '').substring(0, 100)}...</p>
         </div>
         <button class="details-button" data-id="${movie._id}">Visa Detaljer</button>
     `;
@@ -140,3 +140,14 @@ function renderMovieList(moviesToRender) {
 
 // ... (Event listener remains the same)
 document.addEventListener('DOMContentLoaded', fetchAndRenderMovies);
+
+// --- Event Listener for Details Button ---
+// Use event delegation on the grid to handle clicks on any details button.
+movieGrid.addEventListener('click', (e) => {
+    // Check if the clicked element is a details button
+    if (e.target.matches('.details-button')) {
+        const movieId = e.target.dataset.id;
+        // Redirect to the details page with the movie ID in the query string
+        window.location.href = `movie-details.html?id=${movieId}`;
+    }
+});

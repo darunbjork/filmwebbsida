@@ -40,3 +40,37 @@ export async function getMovies(query = '') {
         throw error;
     }
 }
+
+/**
+ * Fetches a single movie by its ID from the API.
+ * @param {string} id - The ID of the movie to fetch.
+ * @returns {Promise<Object>} - A promise that resolves to a single movie object.
+ */
+export async function getMovieById(id) {
+    const url = `${API_BASE_URL}/${id}`;
+
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => null);
+            // Use a more specific error message for 404
+            const errorMessage = response.status === 404 
+                ? `Filmen med ID '${id}' hittades inte.` 
+                : errorData?.error || `HTTP error! Status: ${response.status}`;
+            throw new Error(errorMessage);
+        }
+
+        const result = await response.json();
+        return result.data; // The backend wraps the single movie in a 'data' property
+
+    } catch (error) {
+        console.error(`API Error in getMovieById for ID ${id}:`, error);
+
+        if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
+            throw new Error('Kunde inte ansluta till API-servern. Kör den?');
+        }
+
+        throw error;
+    }
+}
