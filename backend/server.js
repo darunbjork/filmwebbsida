@@ -25,6 +25,7 @@
     
     
     app.use('/api/movies', require('./routes/movies'));
+    app.use('/api/messages', require('./routes/messages'));
     
     // This route will now be overridden by index.html in your frontend folder
     app.get('/', (req, res) => {

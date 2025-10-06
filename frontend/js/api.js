@@ -67,10 +67,90 @@ export async function getMovieById(id) {
     } catch (error) {
         console.error(`API Error in getMovieById for ID ${id}:`, error);
 
-        if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
-            throw new Error('Kunde inte ansluta till API-servern. Kör den?');
-        }
-
         throw error;
     }
 }
+
+/**
+ * Creates a new movie.
+ * @param {Object} movieData - The data for the new movie.
+ * @returns {Promise<Object>} - A promise that resolves to the created movie object.
+ */
+export async function createMovie(movieData) {
+    try {
+        const response = await fetch(API_BASE_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(movieData),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Could not create movie.');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('API Error in createMovie:', error);
+        throw error;
+    }
+}
+
+/**
+ * Updates an existing movie.
+ * @param {string} id - The ID of the movie to update.
+ * @param {Object} movieData - The updated data for the movie.
+ * @returns {Promise<Object>} - A promise that resolves to the updated movie object.
+ */
+export async function updateMovie(id, movieData) {
+    const url = `${API_BASE_URL}/${id}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(movieData),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Could not update movie.');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error(`API Error in updateMovie for ID ${id}:`, error);
+        throw error;
+    }
+}
+
+/**
+ * Deletes a movie by its ID.
+ * @param {string} id - The ID of the movie to delete.
+ * @returns {Promise<void>} - A promise that resolves when the movie is deleted.
+ */
+export async function deleteMovie(id) {
+    const url = `${API_BASE_URL}/${id}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'DELETE',
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => null);
+            throw new Error(errorData?.error || `Could not delete movie. Status: ${response.status}`);
+        }
+
+        // DELETE requests might not return a body, so we don't try to parse it.
+    } catch (error) {
+        console.error(`API Error in deleteMovie for ID ${id}:`, error);
+        throw error;
+    }
+}
+
+
