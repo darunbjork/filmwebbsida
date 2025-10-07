@@ -151,3 +151,16 @@ movieGrid.addEventListener('click', (e) => {
         window.location.href = `movie-details.html?id=${movieId}`;
     }
 });
+
+const input = document.getElementById("searchInput");
+
+input.addEventListener("input", () => {
+  const searchTerm = input.value.trim().toLowerCase();
+
+  if (searchTerm.length > 0) {
+    const filteredMovies = allMovies.filter(movie => movie.title.toLowerCase().startsWith(searchTerm));
+    renderMovieList(filteredMovies);
+  } else {
+    renderMovieList(allMovies);
+  }
+});
